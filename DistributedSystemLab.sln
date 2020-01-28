@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoicingFuncApp", "InvoicingFuncApp\InvoicingFuncApp.csproj", "{DD36B588-C53D-4570-855B-1C788F49F736}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00A350E9-E39C-4D9D-AF09-5ED03F310958}"
+	ProjectSection(SolutionItems) = preProject
+		run-cosmos-db.ps1 = run-cosmos-db.ps1
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoicingWebApp", "InvoicingWebApp\InvoicingWebApp.csproj", "{D5164E11-9E9B-4AD6-854B-591B6135A641}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoicingDataCreator", "InvoicingDataCreator\InvoicingDataCreator.csproj", "{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD36B588-C53D-4570-855B-1C788F49F736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD36B588-C53D-4570-855B-1C788F49F736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD36B588-C53D-4570-855B-1C788F49F736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD36B588-C53D-4570-855B-1C788F49F736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5164E11-9E9B-4AD6-854B-591B6135A641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5164E11-9E9B-4AD6-854B-591B6135A641}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5164E11-9E9B-4AD6-854B-591B6135A641}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5164E11-9E9B-4AD6-854B-591B6135A641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2FCF64B-0831-4998-92DE-7CDA0EF8A6AE}
+	EndGlobalSection
+EndGlobal
