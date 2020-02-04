@@ -30,6 +30,14 @@ namespace InvoicingWebApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<InvoicingDbContext>(options => options.UseCosmos(
+                    Configuration["CosmosDb:AccountEndpoint"],
+                    Configuration["CosmosDb:AccountKey"],
+                    databaseName: Configuration["CosmosDb:DatabaseName:Invoicing"]));
+            services.AddDbContext<InvoicingEventSourcingDbContext>(options => options.UseCosmos(
+                    Configuration["CosmosDb:AccountEndpoint"],
+                    Configuration["CosmosDb:AccountKey"],
+                    databaseName: Configuration["CosmosDb:DatabaseName:InvoicingEventSourcing"]));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();

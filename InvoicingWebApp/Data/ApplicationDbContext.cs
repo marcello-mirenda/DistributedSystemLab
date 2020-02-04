@@ -12,5 +12,14 @@ namespace InvoicingWebApp.Data
             : base(options)
         {
         }
+
+        public DbSet<Models.User> UserNames { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Models.User>().ToTable("AspNetUsers");
+        }
     }
 }

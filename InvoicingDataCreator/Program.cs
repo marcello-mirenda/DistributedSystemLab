@@ -41,7 +41,7 @@ namespace InvoicingDataCreator
                     Id = "1",
                     PartitionKey = partitionKey,
                     Type = "InvoiceChanged",
-                    When = DateTime.UtcNow,
+                    Moment = DateTime.UtcNow,
                     ObjectId = "1"
                 };
                 

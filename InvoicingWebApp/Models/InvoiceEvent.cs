@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace InvoicingDataCreator.EventSourcingModel
+namespace InvoicingWebApp.Models
 {
     public class InvoiceEvent
     {
@@ -20,5 +21,6 @@ namespace InvoicingDataCreator.EventSourcingModel
         public string Type { get; set; }
 
         public string PartitionKey { get; set; }
+
     }
 }
