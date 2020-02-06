@@ -22,7 +22,6 @@ namespace InvoicingWebApp.Data
                 .ToContainer("InvoicingEvents")
                 .HasNoDiscriminator()
                 .HasPartitionKey(x => x.PartitionKey);
-            modelBuilder.Entity<Invoice>().Property(x => x.Id).ToJsonProperty("id");
         }
     }
 }

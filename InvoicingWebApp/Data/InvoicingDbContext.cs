@@ -23,8 +23,9 @@ namespace InvoicingWebApp.Data
             modelBuilder.Entity<Invoice>()
                 .ToContainer("Invoices")
                 .HasNoDiscriminator()
-                .HasPartitionKey(x => x.PartitionKey);
-            modelBuilder.Entity<Invoice>().Property(x => x.Id).ToJsonProperty("id");
+                .HasPartitionKey(x => x.PartitionKey)
+                .HasKey(x => x.AggregateId);
+            modelBuilder.Entity<Invoice>().Property(x => x.AggregateId).ToJsonProperty("id");
 
             modelBuilder.Entity<StaleStatus>()
                 .ToContainer("StaleStatuses")

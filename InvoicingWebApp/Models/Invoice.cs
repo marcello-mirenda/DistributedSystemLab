@@ -9,7 +9,7 @@ namespace InvoicingWebApp.Models
     public class Invoice
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public string AggregateId { get; set; }
 
         public string Customer { get; set; }
 

@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Logging;
-using System.Dynamic;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace InvoicingFuncApp
@@ -49,16 +49,6 @@ namespace InvoicingFuncApp
                     var data = LoadOrCreate(partitionKey, objectID);
                     var doc = data.doc;
                     doc = Merge(doc, item.Data);
-                    //if (data.isNew)
-                    //{
-                    //    ResourceResponse<Document> resp = await _documentClient.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri("Invoicing", "Invoices"), doc, null, true);
-                    //    _logger.LogInformation("Created document {id} status {status}", (object)doc.id, resp.StatusCode.ToString());
-                    //}
-                    //else
-                    //{
-                    //ResourceResponse<Document> resp = await _documentClient.ReplaceDocumentAsync(UriFactory.CreateDocumentUri("Invoicing", "Invoices", doc.id), doc);
-                    //_logger.LogInformation("Updated document {id} status {status}", (object)doc.id, resp.StatusCode.ToString());
-                    //}
                     actionData = doc;
                     action = "Update";
                 }
@@ -82,11 +72,6 @@ namespace InvoicingFuncApp
                 ResourceResponse<Document> resp = await _documentClient.ReplaceDocumentAsync(UriFactory.CreateDocumentUri("Invoicing", "Invoices", actionData.id), actionData);
                 _logger.LogInformation("Updated document {id} status {status}", (object)actionData.id, resp.StatusCode.ToString());
             }
-            //else if (action == "Create")
-            //{
-            //    ResourceResponse<Document> resp = await _documentClient.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri("Invoicing", "Invoices"), actionData, null, true);
-            //    _logger.LogInformation("Created document {Id} status {status}", (object)actionData.id.ToString(), resp.StatusCode.ToString());
-            //}
         }
 
         private (dynamic doc, bool isNew) LoadOrCreate(string partitionKey, string objectID)

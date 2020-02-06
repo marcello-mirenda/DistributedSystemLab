@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Dynamic;
-
 using System.Linq;
-
 using System.Threading.Tasks;
 using InvoicingWebApp.Data;
 using InvoicingWebApp.Models;
@@ -32,11 +29,11 @@ namespace InvoicingWebApp.Controllers
         }
 
         // POST: Invoices/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // To protect from over posting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Customer,Total,Deleted,PartitionKey")] Invoice invoice)
+        public async Task<IActionResult> Create([Bind("AggregateId,Customer,Total,Deleted,PartitionKey")] Invoice invoice)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +57,7 @@ namespace InvoicingWebApp.Controllers
             }
 
             var invoice = await _context.Invoices
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.AggregateId == id);
             if (invoice == null)
             {
                 return NotFound();
@@ -89,7 +86,7 @@ namespace InvoicingWebApp.Controllers
             }
 
             var invoice = await _context.Invoices
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.AggregateId == id);
             if (invoice == null)
             {
                 return NotFound();
@@ -115,13 +112,13 @@ namespace InvoicingWebApp.Controllers
         }
 
         // POST: Invoices/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // To protect from over posting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Customer,Total,Deleted,PartitionKey")] Invoice invoice)
+        public async Task<IActionResult> Edit(string id, [Bind("AggregateId,Customer,Total,Deleted,PartitionKey")] Invoice invoice)
         {
-            if (id != invoice.Id)
+            if (id != invoice.AggregateId)
             {
                 return NotFound();
             }
@@ -196,7 +193,7 @@ namespace InvoicingWebApp.Controllers
                 PartitionKey = partitionKey,
                 Type = type,
                 Moment = moment,
-                ObjectId = data.Id
+                ObjectId = data.AggregateId
             };
 
             var client = _contextEvents.Database.GetCosmosClient();
