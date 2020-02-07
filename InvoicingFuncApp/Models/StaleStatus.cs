@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InvoicingFuncApp
+namespace InvoicingFuncApp.Models
 {
     public class StaleStatus
     {

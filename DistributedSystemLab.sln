@@ -10,9 +10,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		run-cosmos-db.ps1 = run-cosmos-db.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoicingWebApp", "InvoicingWebApp\InvoicingWebApp.csproj", "{D5164E11-9E9B-4AD6-854B-591B6135A641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoicingWebApp", "InvoicingWebApp\InvoicingWebApp.csproj", "{D5164E11-9E9B-4AD6-854B-591B6135A641}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoicingDataCreator", "InvoicingDataCreator\InvoicingDataCreator.csproj", "{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoicingDataCreator", "InvoicingDataCreator\InvoicingDataCreator.csproj", "{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoutingSlip", "RoutingSlip", "{88949318-1618-4FF9-92E8-77CDC311BD83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoutingSlipWebApp", "RoutingSlipWebApp\RoutingSlipWebApp.csproj", "{A6B12FA1-5FA0-4E5F-85AC-0DBE5DE5D3A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoutingSlipFunApp", "RoutingSlipFunApp\RoutingSlipFunApp.csproj", "{D9D89E6C-F68E-49FC-B035-68F30A25D221}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +38,21 @@ Global
 		{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19D94E22-FA04-430A-9FE1-5FE6E99D56F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B12FA1-5FA0-4E5F-85AC-0DBE5DE5D3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B12FA1-5FA0-4E5F-85AC-0DBE5DE5D3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B12FA1-5FA0-4E5F-85AC-0DBE5DE5D3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B12FA1-5FA0-4E5F-85AC-0DBE5DE5D3A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D89E6C-F68E-49FC-B035-68F30A25D221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D89E6C-F68E-49FC-B035-68F30A25D221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D89E6C-F68E-49FC-B035-68F30A25D221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D89E6C-F68E-49FC-B035-68F30A25D221}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A6B12FA1-5FA0-4E5F-85AC-0DBE5DE5D3A2} = {88949318-1618-4FF9-92E8-77CDC311BD83}
+		{D9D89E6C-F68E-49FC-B035-68F30A25D221} = {88949318-1618-4FF9-92E8-77CDC311BD83}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2FCF64B-0831-4998-92DE-7CDA0EF8A6AE}
