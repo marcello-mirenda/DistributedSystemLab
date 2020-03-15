@@ -12,6 +12,8 @@ using InvoicingWebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace InvoicingWebApp
 {
@@ -72,6 +74,16 @@ namespace InvoicingWebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+            });
+
+            var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("it-IT"),
+                };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
             });
         }
     }

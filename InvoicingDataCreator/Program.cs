@@ -46,11 +46,23 @@ namespace InvoicingDataCreator
                 };
                 
                 var client = context.Database.GetCosmosClient();
-                var database = client.GetDatabase("InvoicingEventSourcing");
-                var container = database.GetContainer("InvoicingEvents");
+                var esdb = client.GetDatabase("InvoicingEventSourcing");
+                var esc = esdb.GetContainer("InvoicingEvents");
                 var jObject = JObject.FromObject(invoiceEvent);
                 jObject["Data"] = JObject.Parse("{\"Customer\": \"AAA Asso spa changed\"}");
-                await container.CreateItemAsync(jObject);
+                await esc.CreateItemAsync(jObject);
+
+                await client.CreateDatabaseIfNotExistsAsync("Invoicing");
+                var invdb = client.GetDatabase("Invoicing");
+                await invdb.CreateContainerIfNotExistsAsync("Invoices", "/PartitionKey");
+                await invdb.CreateContainerIfNotExistsAsync("StaleStatuses", "/PartitionKey");
+                var staleStatuses = invdb.GetContainer("StaleStatuses");
+                await staleStatuses.CreateItemAsync(JObject.FromObject(new
+                {
+                    id = "5a46238b-cde6-4369-81c3-9802788b0656",
+                    PartitionKey = "Invoicing",
+                    Status = "Updated"
+                }));
             }
         }
 

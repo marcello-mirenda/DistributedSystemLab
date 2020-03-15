@@ -21,7 +21,8 @@ namespace InvoicingFuncApp
             [CosmosDB(
                 databaseName: "Invoicing",
                 collectionName: "StaleStatuses",
-                ConnectionStringSetting = "cosmosdb")]
+                ConnectionStringSetting = "cosmosdb",
+                CreateIfNotExists = true)]
                 out dynamic document,
             ILogger log)
         {

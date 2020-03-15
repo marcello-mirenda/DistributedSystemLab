@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using InvoicingWebApp.Data;
 using InvoicingWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace InvoicingWebApp.Controllers
@@ -15,11 +17,13 @@ namespace InvoicingWebApp.Controllers
     {
         private readonly InvoicingDbContext _context;
         private readonly InvoicingEventSourcingDbContext _contextEvents;
+        private readonly ILogger<InvoicesController> _logger;
 
-        public InvoicesController(InvoicingDbContext context, InvoicingEventSourcingDbContext contextEvents)
+        public InvoicesController(InvoicingDbContext context, InvoicingEventSourcingDbContext contextEvents, ILogger<InvoicesController> logger)
         {
             _context = context;
             _contextEvents = contextEvents;
+            _logger = logger;
         }
 
         // GET: Invoices/Create
@@ -42,6 +46,8 @@ namespace InvoicingWebApp.Controllers
                 await _context.SaveChangesAsync();
 
                 invoice.PartitionKey = $"{DateTime.UtcNow.Year}-{DateTime.UtcNow.Month}";
+                invoice.AggregateId = Guid.NewGuid().ToString();
+                invoice.PartitionKey = $"{DateTime.Today.Year}-{DateTime.Today.Month}";
                 await CreateEventAsync(invoice, "InvoiceCreated");
                 return RedirectToAction(nameof(Index));
             }
@@ -64,6 +70,34 @@ namespace InvoicingWebApp.Controllers
             }
 
             return View(invoice);
+        }
+
+        // GET: Invoices/CheckOutAll
+        public async Task<IActionResult> CheckOutAll()
+        {
+            var client = _contextEvents.Database.GetCosmosClient();
+            var query = new QueryDefinition("SELECT c.ObjectId FROM c GROUP BY c.ObjectId");
+            var moment = DateTime.Today;
+            var evs = client.GetContainer("InvoicingEventSourcing", "InvoicingEvents");
+            var resultSetIterator = evs.GetItemQueryIterator<InvoiceEvent>(query, requestOptions: new QueryRequestOptions() { PartitionKey = new PartitionKey($"{moment.Year}-{moment.Month}") });
+            var results = new List<InvoiceEvent>();
+            while (resultSetIterator.HasMoreResults)
+            {
+                var response = await resultSetIterator.ReadNextAsync();
+                results.AddRange(response);
+                if (response.Diagnostics != null)
+                {
+                    _logger.LogInformation($"\nQueryWithSqlParameters Diagnostics: {response.Diagnostics.ToString()}");
+                }
+            }
+            foreach (var item in results)
+            {
+                await CreateEventAsync(new
+                {
+                    AggregateId = item.ObjectId
+                }, "InvoiceCheckedOut");
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Invoices/Delete/5
@@ -135,11 +169,26 @@ namespace InvoicingWebApp.Controllers
                 await _context.SaveChangesAsync();
 
                 var data = Diff(invoice, currentInvoice);
-                await CreateEventAsync(invoice, "InvoiceChanged");
+                await CreateEventAsync(data, "InvoiceChanged");
                 return RedirectToAction(nameof(Index));
             }
             return View(invoice);
         }
+
+        // GET: Invoices/CheckOut/5
+        public async Task<IActionResult> CheckOut(string id)
+        {
+            var currentInvoice = await _context.Invoices.FindAsync(id);
+            if (currentInvoice == null)
+            {
+                return NotFound();
+            }
+
+            var data = Diff(currentInvoice, currentInvoice);
+            await CreateEventAsync(data, "InvoiceCheckedOut");
+            return RedirectToAction(nameof(Index));
+        }
+
 
         // GET: Invoices
         public async Task<IActionResult> Index()
@@ -161,7 +210,7 @@ namespace InvoicingWebApp.Controllers
 
             foreach (var pair in dictionaryNew)
             {
-                if (dictionaryCurrent[pair.Key].Equals(pair.Value))
+                if (pair.Key != "AggregateId" && dictionaryCurrent[pair.Key].Equals(pair.Value))
                 {
                     continue;
                 }

@@ -39,8 +39,8 @@ namespace InvoicingFuncApp
                     PartitionKey = new PartitionKey(partitionKey)
                 }).ToList();
 
-            var action = "";
             dynamic actionData = null;
+            var changesCount = 0;
             foreach (var item in events)
             {
                 _logger.LogInformation("Event ID {EventID} {Type} {ObjectId}", (object)item.id, (object)item.Type, (object)item.ObjectId);
@@ -50,7 +50,7 @@ namespace InvoicingFuncApp
                     var doc = data.doc;
                     doc = Merge(doc, item.Data);
                     actionData = doc;
-                    action = "Update";
+                    changesCount++;
                 }
                 else if (item.Type == "InvoiceCreated")
                 {
@@ -67,10 +67,26 @@ namespace InvoicingFuncApp
                     }
                 }
             }
-            if (action == "Update")
+
+            // SimulateUnexpectedError(actionData);
+
+            if (changesCount > 0)
             {
                 ResourceResponse<Document> resp = await _documentClient.ReplaceDocumentAsync(UriFactory.CreateDocumentUri("Invoicing", "Invoices", actionData.id), actionData);
                 _logger.LogInformation("Updated document {id} status {status}", (object)actionData.id, resp.StatusCode.ToString());
+
+            }
+
+        }
+
+        private void SimulateUnexpectedError(dynamic actionData)
+        {
+            var rnd = new Random(DateTime.Now.Millisecond);
+            var rv = rnd.Next(1, 5);
+            if ((rv % 2) == 0)
+            {
+                _logger.LogInformation("Updated document {id} simulating unexpected error", (object)actionData.id);
+                throw new Exception("Unexpected error");
             }
         }
 

@@ -20,11 +20,11 @@ namespace InvoicingFuncApp
                 databaseName: "InvoicingEventSourcing",
                 collectionName: "InvoicingEvents",
                 ConnectionStringSetting = "cosmosdb",
-                LeaseCollectionName = "leases",
+                LeaseCollectionName = "Leases",
                 CreateLeaseCollectionIfNotExists = true,
                 LeaseCollectionPrefix = "Invoicing",
                 StartFromBeginning = true,
-                CheckpointInterval = 1000)]IReadOnlyList<Document> input,
+                CheckpointInterval = 1000)] IReadOnlyList<Document> input,
             [CosmosDB(
                 databaseName: null,
                 collectionName: null,
@@ -37,8 +37,8 @@ namespace InvoicingFuncApp
                 var projector = new Projector(client, log);
                 foreach (var item in input)
                 {
-                    try
-                    {
+                    //try
+                    //{
                         await projector.PerformAsync(item.GetPropertyValue<string>("PartitionKey"), item.GetPropertyValue<string>("ObjectId"));
                         return new StaleStatus
                         {
@@ -46,17 +46,17 @@ namespace InvoicingFuncApp
                             PartitionKey = "Invoicing",
                             Status = "Updated"
                         };
-                    }
-                    catch(Exception ex)
-                    {
-                        log.LogError(ex, "The function should take countermeasures.");
-                        return new StaleStatus
-                        {
-                            Id = "5a46238b-cde6-4369-81c3-9802788b0656",
-                            PartitionKey = "Invoicing",
-                            Status = "Error"
-                        };
-                    }
+                    //}
+                    //catch(Exception ex)
+                    //{
+                    //    log.LogError(ex, "The function should take countermeasures.");
+                    //    return new StaleStatus
+                    //    {
+                    //        Id = "5a46238b-cde6-4369-81c3-9802788b0656",
+                    //        PartitionKey = "Invoicing",
+                    //        Status = "Error"
+                    //    };
+                    //}
                 }
             }
             return null;
