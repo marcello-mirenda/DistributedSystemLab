@@ -40,12 +40,6 @@ namespace InvoicingFuncApp
                     //try
                     //{
                         await projector.PerformAsync(item.GetPropertyValue<string>("PartitionKey"), item.GetPropertyValue<string>("ObjectId"));
-                        return new StaleStatus
-                        {
-                            Id = "5a46238b-cde6-4369-81c3-9802788b0656",
-                            PartitionKey = "Invoicing",
-                            Status = "Updated"
-                        };
                     //}
                     //catch(Exception ex)
                     //{
@@ -58,6 +52,12 @@ namespace InvoicingFuncApp
                     //    };
                     //}
                 }
+                return new StaleStatus
+                {
+                    Id = "5a46238b-cde6-4369-81c3-9802788b0656",
+                    PartitionKey = "Invoicing",
+                    Status = "Updated"
+                };
             }
             return null;
         }
